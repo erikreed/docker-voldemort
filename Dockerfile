@@ -1,4 +1,5 @@
 FROM java:7
+MAINTAINER erikreed
 
 RUN apt-get update && apt-get install -y wget unzip
 
@@ -8,7 +9,7 @@ RUN unzip $VOLDEMORT_VERSION.zip && mv voldemort-* voldemort
 
 WORKDIR /voldemort/
 
-ENV VOLDEMORT_HOME /voldemort/config/single_node_cluster
+ENV VOLDEMORT_HOME=/voldemort/config/single_node_cluster
 RUN ./gradlew clean jar
 
 EXPOSE 6666 6667 8081
