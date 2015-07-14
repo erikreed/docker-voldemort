@@ -9,10 +9,13 @@ RUN unzip $VOLDEMORT_VERSION.zip && mv voldemort-* voldemort
 
 WORKDIR /voldemort/
 
-ENV VOLDEMORT_HOME=/voldemort/config/single_node_cluster
+ENV VOLDEMORT_HOME=/voldemort
 RUN ./gradlew clean jar
+RUN cp -r config/single_node_cluster config/docker_node
+RUN sed -i 's/localhost/voldemort/' config/docker_node/config/cluster.xml
 
 EXPOSE 6666 6667 8081
+VOLUME /voldemort/data
 
-CMD ./bin/voldemort-server.sh
+CMD ./bin/voldemort-server.sh config/docker_node
 
